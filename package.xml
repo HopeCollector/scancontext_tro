@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>scpp</name>
+  <version>0.0.0</version>
+  <description>The scpp evaluate package</description>
+
+  <maintainer email="cmw0249@outlook.com">HopeCollector</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>expr-utils</depend>
+</package>
