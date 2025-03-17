@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS expr-utils)
 find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(TBB REQUIRED)
 
 CPMAddPackage("gh:fmtlib/fmt#7.1.3")
 CPMAddPackage(
@@ -33,6 +34,7 @@ catkin_package(
 
 add_executable(expr expr/main.cc cpp/module/Scancontext/Scancontext.cpp)
 target_include_directories(expr PRIVATE cpp/module/Scancontext ${PCL_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(expr PRIVATE ${PCL_LIBRARIES} ${OpenCV_LIBS} expr-utils::dataloader fmt::fmt fkYAML::fkYAML CLI11::CLI11 Eigen3::Eigen)
+target_link_libraries(expr PRIVATE ${PCL_LIBRARIES} ${OpenCV_LIBS} expr-utils::dataloader fmt::fmt fkYAML::fkYAML CLI11::CLI11 Eigen3::Eigen TBB::tbb)
+target_compile_options(expr PRIVATE -std=c++17 -O3)
 
 install(TARGETS expr DESTINATION lib/${PROJECT_NAME})
