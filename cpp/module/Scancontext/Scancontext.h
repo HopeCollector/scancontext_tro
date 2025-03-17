@@ -54,6 +54,11 @@ float xy2theta( const float & _x, const float & _y );
 MatrixXd circshift( MatrixXd &_mat, int _num_shift );
 std::vector<float> eig2stdvec( MatrixXd _eigmat );
 
+struct SCResult {
+    int loop_frame_id;
+    double dist;
+    SCResult(int _loop_frame_id, double _dist) : loop_frame_id(_loop_frame_id), dist(_dist) {}
+};
 
 class SCManager
 {
@@ -71,6 +76,9 @@ public:
     // User-side API
     void makeAndSaveScancontextAndKeys( pcl::PointCloud<SCPointType> & _scan_down );
     std::pair<int, float> detectLoopClosureID( void ); // int: nearest node index, float: relative yaw  
+
+    // for evaluation
+    std::vector<SCResult> results;
 
 public:
     // hyper parameters ()

@@ -292,6 +292,8 @@ std::pair<int, float> SCManager::detectLoopClosureID ( void )
     /* 
      *  step 2: pairwise distance (find optimal columnwise best-fit using cosine distance)
      */
+    results.clear();
+    results.reserve( NUM_CANDIDATES_FROM_TREE );
     TicToc t_calc_dist;   
     for ( int candidate_iter_idx = 0; candidate_iter_idx < NUM_CANDIDATES_FROM_TREE; candidate_iter_idx++ )
     {
@@ -308,6 +310,8 @@ std::pair<int, float> SCManager::detectLoopClosureID ( void )
 
             nn_idx = candidate_indexes[candidate_iter_idx];
         }
+
+        results.emplace_back(candidate_indexes[candidate_iter_idx], candidate_dist);
     }
     t_calc_dist.toc("Distance calc");
 
