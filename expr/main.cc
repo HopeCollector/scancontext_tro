@@ -45,7 +45,7 @@ Config load_config(const std::string& config_path) {
   ret.lidar_path = node["lidar"].get_value<std::string>();
   ret.pose_path = node["pose"].get_value<std::string>();
   ret.calib_path = node["calib"].get_value<std::string>();
-  ret.output_path = node["output"].get_value<std::string>();
+  ret.output_path = node["result"].get_value<std::string>();
   ret.cache_num = node["cache_num"].get_value<size_t>();
   return ret;
 }
