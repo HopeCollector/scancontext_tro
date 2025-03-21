@@ -105,7 +105,8 @@ double iou(pcl::PointCloud<pcl::PointXYZI>::ConstPtr cld1,
 pcl::PointCloud<pcl::PointXYZI>::Ptr cache_cloud(
     utils::data_loader::Loader::Ptr loader, size_t start, size_t len) {
   pcl::PointCloud<pcl::PointXYZI>::Ptr ret(new pcl::PointCloud<pcl::PointXYZI>);
-  for (int i = start; i < start + len; i++) {
+  int end = std::min(start + len, loader->size());
+  for (int i = start; i < end; i++) {
     auto tmp_cld = loader->seq(i, true);
     if (!tmp_cld) break;
     *ret += *tmp_cld;
