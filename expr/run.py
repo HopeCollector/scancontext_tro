@@ -39,7 +39,7 @@ import subprocess as sp
 
 CMD = 'bash -c "source /ws/install/setup.bash && rosrun scpp expr -c {0} > /dev/null 2>&1"'
 
-for param in params[4:]:
+for param in params:
     yaml.dump(param, open(param["config"], "w"))
     cmd = CMD.format(param["config"])
     print(f"run {cmd}")
