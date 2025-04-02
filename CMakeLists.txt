@@ -29,7 +29,7 @@ CPMAddPackage(
 catkin_package(
   INCLUDE_DIRS cpp/module/Scancontext
   CATKIN_DEPENDS
-  DEPENDS EIGEN3 PCL OpenCV Eigen3 expr-utils
+  DEPENDS
 )
 
 add_executable(expr expr/main.cc cpp/module/Scancontext/Scancontext.cpp)
