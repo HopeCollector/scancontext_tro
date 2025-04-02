@@ -56,6 +56,8 @@ struct Result {
   double score;
   double iou;
   Eigen::Vector3f center;
+  double t_desc;
+  double t_query;
 
   Result(size_t id1, size_t id2, double score)
       : key_frame_id(id1),
@@ -67,7 +69,7 @@ struct Result {
   friend std::ostream& operator<<(std::ostream& os, const Result& res) {
     os << res.key_frame_id << "," << res.loop_frame_id << "," << res.score
        << "," << res.iou << "," << res.center.x() << "," << res.center.y()
-       << "," << res.center.z();
+       << "," << res.center.z() << "," << res.t_desc << "," << res.t_query;
     return os;
   }
 };
@@ -119,6 +121,11 @@ Eigen::Affine3f vec2transform(const Eigen::Vector4f& vec) {
   ret.translation() << vec[0], vec[1], vec[2];
   return ret;
 }
+
+double time_diff(const std::chrono::high_resolution_clock::time_point& t1,
+                const std::chrono::high_resolution_clock::time_point& t2) {
+  return std::chrono::duration<double, std::milli>(t2 - t1).count();
+}
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -156,8 +163,11 @@ int main(int argc, char** argv) {
     clouds.emplace_back(center, cur_ds_cld);
 
     // do the Scan Context things
+    auto t1 = std::chrono::high_resolution_clock::now();
     sc_manager.makeAndSaveScancontextAndKeys(*cur_cld);
+    auto t2 = std::chrono::high_resolution_clock::now();
     sc_manager.detectLoopClosureID();
+    auto t3 = std::chrono::high_resolution_clock::now();
     for (const auto& scres : sc_manager.results) {
       size_t id = i / 10;
       if (!results.empty()) {
@@ -168,6 +178,8 @@ int main(int argc, char** argv) {
       }
       results.emplace_back(id, size_t(scres.loop_frame_id),
                            1.0 / (1.0 + scres.dist));
+      results.back().t_desc = time_diff(t1, t2);
+      results.back().t_query = time_diff(t2, t3);
     }
   }
 
